@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Song = require("../models/Song");
-//const Favorite = require("../models/Favorite");
-
-//router.get("/", (req, res) => res.send("This is root!"));
 
 //all songs
 router.get("/", (req, res) => {
@@ -62,6 +59,31 @@ router.put("/:id/fav", (req, res) => {
   Song.findOneAndUpdate(
     { _id: req.params.id },
     { isFavorite: true },
+    { new: true },
+    (error, song) => {
+      if (error) console.log(error);
+      else res.json(song);
+    }
+  );
+});
+
+//add to favs
+router.put("/:id/fav", (req, res) => {
+  Song.findOneAndUpdate(
+    { _id: req.params.id },
+    { isFavorite: true },
+    { new: true },
+    (error, song) => {
+      if (error) console.log(error);
+      else res.json(song);
+    }
+  );
+});
+// remove favs
+router.put("/:id/fav/remove", (req, res) => {
+  Song.findOneAndUpdate(
+    { _id: req.params.id },
+    { isFavorite: false },
     { new: true },
     (error, song) => {
       if (error) console.log(error);
