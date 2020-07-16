@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Song = require("../models/Song");
-const Favorite = require("../models/Favorite");
+//const Favorite = require("../models/Favorite");
 
 //router.get("/", (req, res) => res.send("This is root!"));
 
@@ -57,25 +57,17 @@ router.delete("/:id", (req, res) => {
   });
 });
 
+//change from false to true
 router.put("/:id/fav", (req, res) => {
-  Song.findById(req.params.id, (error, song) => {
-    if (error) console.log(error);
-    else {
-      Favorite.update(
-        req.params.id,
-        {
-          $push: {
-            favorites: song,
-          },
-        },
-        { new: true },
-        (error, songs) => {
-          if (error) console.log(error);
-          else res.json(songs);
-        }
-      );
+  Song.findOneAndUpdate(
+    { _id: req.params.id },
+    { isFavorite: true },
+    { new: true },
+    (error, song) => {
+      if (error) console.log(error);
+      else res.json(song);
     }
-  });
+  );
 });
 
 module.exports = router;
